@@ -20,12 +20,12 @@ def run_command(cmd, description):
     
     try:
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-        print(f"✅ {description} - SUCCESS")
+        print(f"[OK] {description} - SUCCESS")
         if result.stdout:
             print("STDOUT:", result.stdout)
         return True
     except subprocess.CalledProcessError as e:
-        print(f"❌ {description} - FAILED")
+        print(f"[FAIL] {description} - FAILED")
         print(f"Error: {e.stderr}")
         if e.stdout:
             print(f"STDOUT: {e.stdout}")
@@ -36,10 +36,10 @@ def check_file_exists(filepath, description):
     """Check if a file exists."""
     if os.path.exists(filepath):
         size = os.path.getsize(filepath)
-        print(f"✅ {description} exists ({size:,} bytes)")
+        print(f"[OK] {description} exists ({size:,} bytes)")
         return True
     else:
-        print(f"❌ {description} missing")
+        print(f"[FAIL] {description} missing")
         return False
 
 
@@ -59,19 +59,19 @@ def main():
         success = False
     
     # Test 2: Clean previous builds
-    print(f"\n🧹 Cleaning previous builds...")
+    print(f"\nCleaning previous builds...")
     for dir_name in ['build', 'dist']:
         if os.path.exists(dir_name):
             import shutil
             shutil.rmtree(dir_name)
-            print(f"✅ Removed {dir_name}/")
+            print(f"[OK] Removed {dir_name}/")
     
     # Test 3: Run build script
     if not run_command([sys.executable, 'build.py'], "Running build script"):
         success = False
     
     # Test 4: Verify outputs exist
-    print(f"\n📋 Verifying build outputs...")
+    print(f"\nVerifying build outputs...")
     
     cli_path = "dist/pycomicconverter-cli"
     gui_path = "dist/pycomicconverter-gui"
@@ -97,7 +97,7 @@ def main():
             success = False
     
     # Test 6: List dist directory contents
-    print(f"\n📁 Contents of dist/ directory:")
+    print(f"\nContents of dist/ directory:")
     if os.path.exists("dist"):
         for item in Path("dist").rglob("*"):
             if item.is_file():
@@ -107,12 +107,12 @@ def main():
     # Summary
     print(f"\n{'='*50}")
     if success:
-        print("🎉 ALL TESTS PASSED!")
-        print("✅ Build process is working correctly")
-        print("✅ Ready for GitHub Actions deployment")
+        print("[SUCCESS] ALL TESTS PASSED!")
+        print("[OK] Build process is working correctly")
+        print("[OK] Ready for GitHub Actions deployment")
     else:
-        print("❌ SOME TESTS FAILED!")
-        print("🔧 Fix issues before deploying to GitHub Actions")
+        print("[FAIL] SOME TESTS FAILED!")
+        print("[ACTION] Fix issues before deploying to GitHub Actions")
         sys.exit(1)
     print(f"{'='*50}")
 

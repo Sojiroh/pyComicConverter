@@ -18,10 +18,10 @@ def run_command(cmd, description):
     
     try:
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-        print(f"✓ {description} completed successfully")
+        print(f"[OK] {description} completed successfully")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"✗ {description} failed:")
+        print(f"[FAIL] {description} failed:")
         print(f"Error: {e.stderr}")
         return False
 
@@ -36,9 +36,9 @@ def clean_build():
     for dir_name in dirs_to_clean:
         if os.path.exists(dir_name):
             shutil.rmtree(dir_name)
-            print(f"✓ Removed {dir_name}/")
+            print(f"[OK] Removed {dir_name}/")
     
-    print("✓ Build artifacts cleaned")
+    print("[OK] Build artifacts cleaned")
 
 
 def build_cli():
@@ -69,7 +69,7 @@ def main():
         subprocess.run([sys.executable, '-m', 'PyInstaller', '--version'], 
                       check=True, capture_output=True)
     except subprocess.CalledProcessError:
-        print("✗ PyInstaller not found. Install with: uv sync --extra build")
+        print("[FAIL] PyInstaller not found. Install with: uv sync --extra build")
         sys.exit(1)
     
     # Clean previous builds
@@ -81,11 +81,11 @@ def main():
     
     print("\n" + "=" * 40)
     print("Build Summary:")
-    print(f"CLI Build: {'✓ Success' if cli_success else '✗ Failed'}")
-    print(f"GUI Build: {'✓ Success' if gui_success else '✗ Failed'}")
+    print(f"CLI Build: {'[OK] Success' if cli_success else '[FAIL] Failed'}")
+    print(f"GUI Build: {'[OK] Success' if gui_success else '[FAIL] Failed'}")
     
     if cli_success and gui_success:
-        print("\n✓ All builds completed successfully!")
+        print("\n[OK] All builds completed successfully!")
         print("Executables are in the dist/ directory:")
         dist_path = Path("dist")
         if dist_path.exists():
@@ -93,7 +93,7 @@ def main():
                 if exe.is_file():
                     print(f"  - {exe}")
     else:
-        print("\n✗ Some builds failed. Check the output above.")
+        print("\n[FAIL] Some builds failed. Check the output above.")
         sys.exit(1)
 
 
