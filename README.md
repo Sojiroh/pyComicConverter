@@ -179,8 +179,8 @@ uv run python main.py "test.pdf"
 ## Roadmap
 
 - [x] **Batch processing multiple files** ✅ *Completed!*
-- [ ] CBZ to PDF conversion
-- [ ] CBZ to CBZ reprocessing  
+- [x] **CBZ to PDF conversion** ✅ *Completed!*
+- [x] **CBZ to CBZ reprocessing** ✅ *Completed!* 
 - [ ] Additional output formats (CBR, EPUB)
 - [ ] GUI interface
 - [ ] Image optimization options
