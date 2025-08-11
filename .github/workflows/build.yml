@@ -66,13 +66,21 @@ jobs:
       if: matrix.platform != 'windows'
       run: |
         echo "Contents of dist directory:"
-        ls -la dist/
+        ls -la dist/ || echo "dist directory does not exist"
 
     - name: Build executables (macOS)
       if: matrix.platform == 'macos'
       run: |
         uv run python -m PyInstaller --clean pycomicconverter-cli.spec
         uv run python -m PyInstaller --clean pycomicconverter-gui.spec
+        
+    - name: Debug - List macOS build results
+      if: matrix.platform == 'macos'
+      run: |
+        echo "Contents of current directory:"
+        ls -la
+        echo "Contents of dist directory (if exists):"
+        ls -la dist/ || echo "dist directory does not exist"
 
     - name: Create release directory
       run: |
@@ -81,10 +89,23 @@ jobs:
     - name: Package executables (Linux)
       if: matrix.platform == 'linux'
       run: |
-        cp dist/pycomicconverter-cli release/
-        cp dist/pycomicconverter-gui release/
+        # Copy CLI executable
+        if [ -f "dist/pycomicconverter-cli" ]; then
+          cp dist/pycomicconverter-cli release/
+          echo "Copied CLI executable"
+        fi
+        
+        # Copy GUI (could be file or directory)
+        if [ -f "dist/pycomicconverter-gui" ]; then
+          cp dist/pycomicconverter-gui release/
+          echo "Copied GUI executable (file)"
+        elif [ -d "dist/pycomicconverter-gui" ]; then
+          cp -r dist/pycomicconverter-gui release/
+          echo "Copied GUI executable (directory)"
+        fi
+        
         cd release
-        tar -czf pycomicconverter-linux-x64.tar.gz pycomicconverter-cli pycomicconverter-gui
+        tar -czf pycomicconverter-linux-x64.tar.gz *
 
     - name: Package executables (Windows)
       if: matrix.platform == 'windows'
