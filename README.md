@@ -182,7 +182,7 @@ uv run python main.py "test.pdf"
 - [x] **CBZ to PDF conversion** ✅ *Completed!*
 - [x] **CBZ to CBZ reprocessing** ✅ *Completed!* 
 - [ ] Additional output formats (CBR, EPUB)
-- [ ] GUI interface
+- [x] **GUI interface** ✅ *Completed!* 
 - [ ] Image optimization options
 - [ ] Metadata preservation
 - [ ] Recursive directory processing (subdirectories)
