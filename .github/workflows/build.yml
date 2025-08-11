@@ -55,6 +55,11 @@ jobs:
       run: |
         uv run python build.py
 
+    - name: Debug - List built files
+      run: |
+        echo "Contents of dist directory:"
+        ls -la dist/ || dir dist\
+
     - name: Build executables (macOS)
       if: matrix.platform == 'macos'
       run: |
@@ -77,10 +82,28 @@ jobs:
       if: matrix.platform == 'windows'
       shell: pwsh
       run: |
-        Copy-Item dist/pycomicconverter-cli.exe release/
-        Copy-Item dist/pycomicconverter-gui.exe release/
+        # Copy CLI executable (should be .exe)
+        if (Test-Path "dist/pycomicconverter-cli.exe") {
+          Copy-Item "dist/pycomicconverter-cli.exe" release/
+          Write-Host "Copied CLI executable (.exe)"
+        } elseif (Test-Path "dist/pycomicconverter-cli") {
+          Copy-Item "dist/pycomicconverter-cli" release/
+          Write-Host "Copied CLI executable (no .exe)"
+        }
+        
+        # Copy GUI executable (could be .exe or directory)
+        if (Test-Path "dist/pycomicconverter-gui.exe") {
+          Copy-Item "dist/pycomicconverter-gui.exe" release/
+          Write-Host "Copied GUI executable (.exe)"
+        } elseif (Test-Path "dist/pycomicconverter-gui") {
+          Copy-Item "dist/pycomicconverter-gui" release/ -Recurse
+          Write-Host "Copied GUI directory"
+        }
+        
         cd release
-        Compress-Archive -Path pycomicconverter-cli.exe, pycomicconverter-gui.exe -DestinationPath pycomicconverter-windows-x64.zip
+        $files = Get-ChildItem -Name
+        Write-Host "Files to archive: $($files -join ', ')"
+        Compress-Archive -Path * -DestinationPath pycomicconverter-windows-x64.zip
 
     - name: Package executables (macOS)
       if: matrix.platform == 'macos'
