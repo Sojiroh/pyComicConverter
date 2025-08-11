@@ -100,12 +100,12 @@ def process_single_file(file_path, output_dir, output_type):
 
 def main():
     parser = argparse.ArgumentParser(description="Convert between PDF and CBZ comic formats")
-    parser.add_argument("file", help="Path to a PDF/CBZ file or directory containing PDF/CBZ files")
+    parser.add_argument("filePath", help="Path to a PDF/CBZ file or directory containing PDF/CBZ files")
     parser.add_argument("-o", "--output-dir", default=".", help="Output directory for images")
     parser.add_argument("-t", "--output-type", default="cbz", help="Output type: cbz (default) or other formats")
     
     args = parser.parse_args()
-    input_path = args.file
+    input_path = args.filePath
     
     # Check if input is a directory or file
     if os.path.isdir(input_path):
