@@ -64,7 +64,7 @@ def convert_single_file(file_path: str, output_dir: str, output_type: str,
     file_extension = os.path.splitext(file_path)[1].lower()
     
     # Create temp directory for images in current folder
-    temp_dir = tempfile.mkdtemp(dir=".")
+    temp_dir = tempfile.mkdtemp()
     update_progress(f"Processing: {os.path.basename(file_path)}")
     
     try:

@@ -8,3 +8,6 @@ dependencies = [
     "pillow>=11.3.0",
     "pymupdf>=1.26.3",
 ]
+
+[project.optional-dependencies]
+build = ["pyinstaller>=6.0"]
