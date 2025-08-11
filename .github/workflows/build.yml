@@ -55,10 +55,18 @@ jobs:
       run: |
         uv run python build.py
 
-    - name: Debug - List built files
+    - name: Debug - List built files (Windows)
+      if: matrix.platform == 'windows'
+      shell: pwsh
+      run: |
+        Write-Host "Contents of dist directory:"
+        Get-ChildItem dist/ -Recurse | Format-Table Name, Length, LastWriteTime
+
+    - name: Debug - List built files (Unix)
+      if: matrix.platform != 'windows'
       run: |
         echo "Contents of dist directory:"
-        ls -la dist/ || dir dist\
+        ls -la dist/
 
     - name: Build executables (macOS)
       if: matrix.platform == 'macos'
