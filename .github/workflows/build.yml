@@ -53,7 +53,7 @@ jobs:
     - name: Build executables (Linux/Windows)
       if: matrix.platform != 'macos'
       run: |
-        uv run python build.py
+        uv run python src/build.py
 
     - name: Debug - List built files (Windows)
       if: matrix.platform == 'windows'

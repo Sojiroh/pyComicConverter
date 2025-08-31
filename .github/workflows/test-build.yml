@@ -30,7 +30,7 @@ jobs:
 
     - name: Test build process
       run: |
-        uv run python build.py
+        uv run python src/build.py
 
     - name: Verify executables exist
       run: |

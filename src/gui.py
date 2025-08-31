@@ -13,12 +13,12 @@ class ComicConverterGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Comic Converter - PDF ↔ CBZ")
-        self.root.geometry("700x600")
+        self.root.geometry("700x800")
         self.root.minsize(600, 500)
         
         # Variables
         self.selected_files = []
-        self.output_format = tk.StringVar(value="pdf")
+        self.output_format = tk.StringVar(value="cbz")
         self.output_directory = tk.StringVar(value=str(Path.home()))
         self.is_converting = False
         

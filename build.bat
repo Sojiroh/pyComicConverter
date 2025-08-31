@@ -15,7 +15,7 @@ if %errorlevel% == 0 (
 )
 
 REM Run the Python build script
-python build.py
+python src/build.py
 
 echo.
 echo Build completed! Check the dist\ directory for executables.
